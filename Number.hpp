@@ -2,6 +2,7 @@
 #define NUMBER
 
 #include <bits/stdc++.h>
+using namespace std;
 
 class Number {
     public:
