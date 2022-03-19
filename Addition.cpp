@@ -22,10 +22,11 @@ Number  Add(Number *A, Number *B)
 {
     // FOR Bk and Al length vectors
     vector<int> c;
+    //Adjust(A,B);
     int k = B->digits.size();
     int l = A->digits.size();
     int b = A->base;
-    //Adjust(A,B);
+    
     int carry = 0;
     int Ci = 0;
     int minLen = min(l, k);
