@@ -11,7 +11,7 @@ class Number {
         int exponent;
         bool sign;
 
-        Number(vector<int> &dig, int b, int expo, bool sig = 0);
+        Number(vector<int> &dig, int b, int expo, bool sig = 0);    
 };
 
 #endif // NUMBER
