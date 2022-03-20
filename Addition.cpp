@@ -1,3 +1,5 @@
+#ifndef ADDITION
+#define ADDITION
 #include "Number.hpp"
 // void Adjust(Number * A, Number * B)
 // {
@@ -18,7 +20,7 @@
 //         Multiply(B,&adjustfactor);
 //     }
 // }
-Number  Add(Number *A, Number *B)
+Number * Add(Number *A, Number *B)
 {
     // FOR Bk and Al length vectors
     vector<int> c;
@@ -58,7 +60,7 @@ Number  Add(Number *A, Number *B)
         res.push_back(c[i]);
     }
 
-    Number ans(res,A->base,0,false);
+    Number * ans = new Number(res,A->base,0,false);
 
     return ans;
 }
@@ -69,10 +71,10 @@ int main()
     vector<int> b = {1,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2};
     Number A(a,10,0,0);
     Number B(b,10,0,0);
-    Number ans = Add(&A,&B);
-    for(int i =0;i<ans.digits.size();i++)
+    Number *ans = Add(&A,&B);
+    for(int i =0;i<ans->digits.size();i++)
     {
-        cout<<ans.digits[i];
+        cout<<ans->digits[i];
     }
     cout<<endl;
 }
@@ -82,3 +84,5 @@ int main()
 //    6
 //   1   carry = 1
 //  2
+
+#endif
