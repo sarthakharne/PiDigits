@@ -58,30 +58,34 @@ Number * Add(Number *A, Number *B)
             c.push_back(Ci);
         }
     }
+    c.push_back(carry);
     vector<int> res;
     for(int i =c.size()-1;i >-1;i--)
     {
         res.push_back(c[i]);
     }
     reverse(res.begin(),res.end());
+    reverse(A->digits.begin(),A->digits.end());
+    reverse(B->digits.begin(),B->digits.end());
     Number * ans = new Number(res,A->base,0,false);
 
     return ans;
 }
 
-int main()
-{
-    vector<int> a = {0,1};
-    vector<int> b = {0,2};
-    Number A(a,10,0,0);
-    Number B(b,10,0,0);
-    Number *ans = Add(&A,&B);
-    for(int i =0;i<ans->digits.size();i++)
-    {
-        cout<<ans->digits[i];
-    }
-    cout<<endl;
-}
+// int main()
+// {
+//     vector<int> a = {6};
+//     vector<int> b = {9};
+//     Number A(a,10,0,0);
+//     Number B(b,10,0,0);
+//     Number *ans = Add(&A,&B);
+//     // for(int i =0;i<ans->digits.size();i++)
+//     // {
+//     //     cout<<ans->digits[i];
+//     // }
+//     ans->printNumber();
+//     cout<<endl;
+// }
 // Rough : -
 //  123  B 3 3-i-1 = 2 1
 //  093  A 2 2-i-1 = 1 0
