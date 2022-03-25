@@ -1,6 +1,8 @@
 #ifndef ADDITION
 #define ADDITION
 #include "Number.hpp"
+#include <algorithm>
+using namespace std;
 // void Adjust(Number * A, Number * B)
 // {
 //     if(A->exponent > B->exponent)
@@ -23,6 +25,8 @@
 Number * Add(Number *A, Number *B)
 {
     // FOR Bk and Al length vectors
+    reverse(A->digits.begin(),A->digits.end());
+    reverse(B->digits.begin(),B->digits.end());
     vector<int> c;
     //Adjust(A,B);
     int k = B->digits.size();
@@ -67,8 +71,8 @@ Number * Add(Number *A, Number *B)
 
 int main()
 {
-    vector<int> a = {9,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
-    vector<int> b = {1,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2};
+    vector<int> a = {0,1};
+    vector<int> b = {0,2};
     Number A(a,10,0,0);
     Number B(b,10,0,0);
     Number *ans = Add(&A,&B);

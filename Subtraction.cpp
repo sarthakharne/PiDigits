@@ -22,6 +22,8 @@
 // }
 int Order(Number *A, Number *B)
 {
+    reverse(A->digits.begin(),A->digits.end());
+    reverse(B->digits.begin(),B->digits.end());
     if (A->digits.size() < B->digits.size())
     { // B is the larger Number.
         vector<int> temp;
@@ -115,7 +117,7 @@ Number *Sub(Number *A, Number *B)
 
 int main()
 {
-    vector<int> a = {2,0,1};
+    vector<int> a = {1,0,2};
     vector<int> b = {5,0,5};
     Number A(a, 10, 0, 0);
     Number B(b, 10, 0, 0);
