@@ -11,7 +11,14 @@ class Number {
         int exponent;
         bool sign;
 
-        Number(vector<int> &dig, int b, int expo, bool sig = 0);    
+        Number(vector<int> &dig, int b, int expo, bool sig = false);
+        Number(Number *n);
+
+        // removes zeroes from the Left and adjusts the exponent
+        void removeZeroes();
+
+        // add exponent
+        Number* addExponent(int e);
 };
 
 #endif // NUMBER
