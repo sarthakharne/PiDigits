@@ -1,3 +1,5 @@
+#ifndef SUBTRACTION
+#define SUBTRACTION
 #include "Number.hpp"
 // void Adjust(Number * A, Number * B)
 // {
@@ -51,7 +53,7 @@ int Order(Number *A, Number *B)
     }
     return -1; // no swapping needs to be done.
 }
-Number Sub(Number *A, Number *B)
+Number *Sub(Number *A, Number *B)
 {
     // Adjust(A,B);
     // FOR Bk and Al length vectors
@@ -60,11 +62,7 @@ Number Sub(Number *A, Number *B)
     if (swapflag == 1)
     {
         sign = 1; // negative
-        for (int i = 0; i < A->digits.size(); i++)
-        {
-            cout << A->digits[i];
-        }
-        cout << endl;
+        
     }
     vector<int> c;
     int k = B->digits.size();
@@ -110,7 +108,7 @@ Number Sub(Number *A, Number *B)
         res.push_back(c[i]);
     }
 
-    Number ans(res, A->base, 0, sign);
+    Number *ans = new Number(res, A->base, 0, sign);
 
     return ans;
 }
@@ -121,13 +119,13 @@ int main()
     vector<int> b = {5,0,5};
     Number A(a, 10, 0, 0);
     Number B(b, 10, 0, 0);
-    Number ans = Sub(&A, &B);
-    for (int i = 0; i < ans.digits.size(); i++)
+    Number *ans = Sub(&A, &B);
+    for (int i = 0; i < ans->digits.size(); i++)
     {
-        cout << ans.digits[i];
+        cout << ans->digits[i];
     }
     cout << endl;
-    cout << ans.sign << endl;
+    cout << ans->sign << endl;
 }
 // Rough : -
 //  123  B 3 3-i-1 = 2 1
@@ -135,3 +133,5 @@ int main()
 //    0
 //   1   carry = 1
 //  2
+
+#endif
