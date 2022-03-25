@@ -58,6 +58,7 @@ Number * Add(Number *A, Number *B)
             c.push_back(Ci);
         }
     }
+    c.push_back(carry);
     vector<int> res;
     for(int i =c.size()-1;i >-1;i--)
     {
@@ -71,8 +72,8 @@ Number * Add(Number *A, Number *B)
 
 int main()
 {
-    vector<int> a = {0,1};
-    vector<int> b = {0,2};
+    vector<int> a = {2};
+    vector<int> b = {9};
     Number A(a,10,0,0);
     Number B(b,10,0,0);
     Number *ans = Add(&A,&B);
