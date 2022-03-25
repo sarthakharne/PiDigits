@@ -109,7 +109,7 @@ Number *Sub(Number *A, Number *B)
     {
         res.push_back(c[i]);
     }
-
+    reverse(res.begin(),res.end());
     Number *ans = new Number(res, A->base, 0, sign);
 
     return ans;

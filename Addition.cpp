@@ -63,7 +63,7 @@ Number * Add(Number *A, Number *B)
     {
         res.push_back(c[i]);
     }
-
+    reverse(res.begin(),res.end());
     Number * ans = new Number(res,A->base,0,false);
 
     return ans;
