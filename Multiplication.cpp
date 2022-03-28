@@ -142,14 +142,14 @@ Number* Karatsuba(Number* n1, Number* n2) {
     // Sum2->printNumber();
     // cout << "Prod1: ";
     // Prod1->printNumber();
-    Number* Diff1 = Sub(Prod1, higherMult);
+    Number* Diff1 = Sub(*Prod1, *higherMult);
     // cout << "Prod1: ";
     // Prod1->printNumber();
     // cout << "higherMult: ";
     // higherMult->printNumber();
     // cout << "Diff1: ";
     // Diff1->printNumber();
-    Number* Diff2 = Sub(Diff1, lowerMult);
+    Number* Diff2 = Sub(*Diff1, *lowerMult);
     cout << "Diff1: ";
     Diff1->printNumber();
     cout << "lowerMult: ";
