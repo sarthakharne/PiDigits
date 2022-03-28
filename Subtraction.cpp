@@ -37,6 +37,10 @@ int Order(Number *A, Number *B)
     {
         for (int i = 0; i < A->digits.size(); i++)
         {
+            if(A->digits[i] > B->digits[i])
+            {
+                return -1;
+            }
             if (A->digits[i] < B->digits[i])
             {
                 // If this part is reached then B is larger than A and we need to swap
@@ -54,8 +58,12 @@ Number *Sub(Number A, Number B)
 {
     // Adjust(A,B);
     // FOR Bk and Al length vectors
+    A.printNumber();
+    B.printNumber();
     int swapflag = Order(&A, &B);
     int sign = 0;
+    A.printNumber();
+    B.printNumber();
     if (swapflag == 1)
     {
         sign = 1; // negative
@@ -76,17 +84,19 @@ Number *Sub(Number A, Number B)
             Ci = (A.digits[l - i - 1] - B.digits[k - i - 1] + carry) % b;
             carry = 0;
             c.push_back(Ci);
+            cout<<Ci<<endl;
         }
         else
         {
             Ci = ((A.base + (A.digits[l - i - 1])) - B.digits[k - i - 1] + carry) % b;
             carry = -1;
             c.push_back(Ci);
+            cout<<Ci<<endl;
         }
     }
     for (int i = minLen; i < maxLen; i++)
     { // l > k in this case always since A always has the larger value
-        if (A.digits[i] == 0 && carry == -1)
+        if (A.digits[l-i-1] == 0 && carry == -1)
         {
             Ci = ((A.base + (A.digits[l - i - 1])) + carry) % b;
             carry = -1;
@@ -114,8 +124,8 @@ Number *Sub(Number A, Number B)
 
 // int main()
 // {
-//     vector<int> a = {7,1};
-//     vector<int> b = {0,1};
+//     vector<int> a = {6,0,0,4,1};
+//     vector<int> b = {4,2,9};
 //     Number A(a, 10, 0, 0);
 //     Number B(b, 10, 0, 0);
 //     Number *ans = Sub(A, B);

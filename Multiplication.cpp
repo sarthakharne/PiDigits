@@ -193,8 +193,8 @@ Number* Multiply(Number* n1, Number* n2) {
 
 int main() {
     // TODO: Correct the code for this input
-    vector<int> a = {2, 1};
-    vector<int> b = {5, 1};
+    vector<int> a = {2,8,3,9,5,0,2,8};
+    vector<int> b = {7,2,2,4,9,8,3,3};
     Number* A = new Number(a, 10, 0, 0);
     Number* B = new Number(b, 10, 0, 0);
     Number* ans = Multiply(A, B);
