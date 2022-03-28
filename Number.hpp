@@ -19,6 +19,9 @@ class Number {
 
         // add exponent
         Number* addExponent(int e);
+
+        // print to see the number
+        void printNumber();
 };
 
 #endif // NUMBER

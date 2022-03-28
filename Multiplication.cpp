@@ -10,10 +10,10 @@ using namespace std;
 pair<Number*, Number*> splitAt(Number *n, int ind) {
     Number* lowSplit;
     Number* highSplit;
-    if(n->digits.size() - 1 <= ind) {
+    if(n->digits.size() - 1 < ind) {
+        // dig = {0}
         vector<int> dig(1, 0);
 
-        // TODO: free these objects
         lowSplit = new Number(n);
         highSplit = new Number(dig, n->base, 0);
     }
@@ -21,13 +21,12 @@ pair<Number*, Number*> splitAt(Number *n, int ind) {
         vector<int> digLow;
         vector<int> digHigh;
         for(int i = 0;i < n->digits.size();i++) {
-            if(i <= ind)
+            if(i < ind)
                 digLow.push_back(n->digits[i]);
             else
                 digHigh.push_back(n->digits[i]);
         }
 
-        // TODO: free these objects
         lowSplit = new Number(digLow, n->base, 0);
         lowSplit->removeZeroes();
         highSplit = new Number(digHigh, n->base, 0);
@@ -37,6 +36,36 @@ pair<Number*, Number*> splitAt(Number *n, int ind) {
     return make_pair(lowSplit, highSplit);
 }
 
+Number* NormalMult(Number* n1, Number* n2) {
+    // size of the digit taken into consideration
+    int size1 = n1->digits.size();
+    int size2 = n2->digits.size();
+    vector<int> c(size1 + size2, 0);
+
+    // int bigSize = max(n1->digits.size(), n2->digits.size());
+
+    for(int i = 0;i < size1;i++) {
+        int carry = 0;
+
+        for(int j = 0;j < size2;j++) {
+            int temp = n1->digits[i]*n2->digits[j] + c[i + j] + carry;
+            carry = temp/n1->base;
+            c[i + j] = temp%n1->base;
+            if(j == size2 - 1) {
+                c[i + j + 1] = carry;
+            }
+        }
+    }
+
+    int base = n1->base;
+    int exp = 0;    // will be normalised afterwards
+
+    Number* res = new Number(c, base, exp);
+    res->sign = n1->sign | n2->sign;
+
+    return res;
+}
+
 Number* Karatsuba(Number* n1, Number* n2) {
     // size of the digit taken into consideration
     int size1 = n1->digits.size();
@@ -44,28 +73,7 @@ Number* Karatsuba(Number* n1, Number* n2) {
 
     // base case, when only 1 digit is received    
     if(size1 == 1 || size2 == 1) {
-        vector<int> c(size1 + size2, 0);
-
-        // int bigSize = max(n1->digits.size(), n2->digits.size());
-
-        for(int i = 0;i < size1;i++) {
-            int carry = 0;
-
-            for(int j = 0;j < size2;j++) {
-                int temp = n1->digits[i]*n2->digits[j] + c[i + j] + carry;
-                carry = temp/n1->base;
-                c[i + j] = temp%n1->base;
-            }
-        }
-
-        int base = n1->base;
-        int exp = 0;    // will be normalised afterwards
-
-        // TODO: free res
-        Number* res = new Number(c, base, exp);
-        res->removeZeroes();    // exponent set
-
-        return res;
+        return NormalMult(n1, n2);
     }
 
     /*
@@ -83,7 +91,6 @@ Number* Karatsuba(Number* n1, Number* n2) {
     pair<Number*, Number*> n1Split = splitAt(n1, greaterSizBy2);
     pair<Number*, Number*> n2Split = splitAt(n2, greaterSizBy2);
     
-    // TODO: free memory for these objects
     Number *lowSpl1 = new Number(n1Split.first);
     Number *highSpl1 = new Number(n1Split.second);
     Number *lowSpl2 = new Number(n2Split.first);
@@ -95,23 +102,39 @@ Number* Karatsuba(Number* n1, Number* n2) {
     free(n2Split.first);
     free(n2Split.second);
     
-    // TODO: free memory for these objects
     Number* higherMult = Karatsuba(highSpl1, highSpl2);
     Number* lowerMult = Karatsuba(lowSpl1, lowSpl2);
-    Number* highMultPlusLowerMult = Sub(Sub(Karatsuba(Add(lowSpl1, highSpl1), Add(lowSpl2, highSpl2)), higherMult), lowerMult);
-    // TODO: free memory for prod
-    Number* Prod = new Number(Add(Add(higherMult->addExponent(greaterSiz), highMultPlusLowerMult->addExponent(greaterSizBy2)), lowerMult));
 
-    // free unrequired objects
+    Number* Sum1 = Add(lowSpl1, highSpl1);
+    Number* Sum2 = Add(lowSpl2, highSpl2);
+    Number* Prod1 = Karatsuba(Sum1, Sum2);
+    Number* Diff1 = Sub(Prod1, higherMult);
+    Number* Diff2 = Sub(Diff1, lowerMult);
+    Number* highMultPlusLowerMult = Diff2;
+
+    higherMult->addExponent(2*greaterSizBy2);
+    highMultPlusLowerMult->addExponent(greaterSizBy2);
+    Number* Sum3 = Add(higherMult, highMultPlusLowerMult);
+    Number* Sum4 = Add(Sum3, lowerMult);
+    Number* FinalProd = new Number(Sum4);
+
+    // free objects which aren't required
     free(lowSpl1);
     free(highSpl1);
     free(lowSpl2);
     free(highSpl2);
     free(higherMult);
     free(lowerMult);
-    free(highMultPlusLowerMult);
+    free(Sum1);
+    free(Sum2);
+    free(Prod1);
+    free(Diff1);
+    free(Diff2);
+    free(Sum3);
+    free(Sum4);
+    FinalProd->sign = n1->sign | n2->sign;
 
-    return Prod;
+    return FinalProd;
 }
 
 Number* Multiply(Number* n1, Number* n2) {
@@ -120,6 +143,18 @@ Number* Multiply(Number* n1, Number* n2) {
     Res->removeZeroes();
 
     return Res;
+}
+
+int main() {
+    vector<int> a = {1, 4, 7, 4, 4};
+    vector<int> b = {2, 7, 2, 2, 7, 1, 1, 6, 9};
+    Number* A = new Number(a, 10, 0, 0);
+    Number* B = new Number(b, 10, 0, 0);
+    Number* ans = Multiply(A, B);
+    // Number* ans = NormalMult(A, B);
+
+    cout << "\nAnswer: \n";
+    ans->printNumber();
 }
 
 #endif // MULTIPLICATION
