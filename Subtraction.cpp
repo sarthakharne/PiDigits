@@ -117,8 +117,8 @@ Number *Sub(Number *A, Number *B)
 
 int main()
 {
-    vector<int> a = {1,0,2};
-    vector<int> b = {5,0,5};
+    vector<int> a = {1};
+    vector<int> b = {5};
     Number A(a, 10, 0, 0);
     Number B(b, 10, 0, 0);
     Number *ans = Sub(&A, &B);
