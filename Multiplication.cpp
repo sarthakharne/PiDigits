@@ -108,8 +108,8 @@ Number* Karatsuba(Number* n1, Number* n2) {
     Number* Sum1 = Add(lowSpl1, highSpl1);
     Number* Sum2 = Add(lowSpl2, highSpl2);
     Number* Prod1 = Karatsuba(Sum1, Sum2);
-    Number* Diff1 = Sub(Prod1, higherMult);
-    Number* Diff2 = Sub(Diff1, lowerMult);
+    Number* Diff1 = Sub(*Prod1, *higherMult);
+    Number* Diff2 = Sub(*Diff1, *lowerMult);
     Number* highMultPlusLowerMult = Diff2;
 
     higherMult->addExponent(2*greaterSizBy2);
