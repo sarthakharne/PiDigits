@@ -24,6 +24,7 @@ int Order(Number *A, Number *B)
 {
     reverse(A->digits.begin(),A->digits.end());
     reverse(B->digits.begin(),B->digits.end());
+
     if (A->digits.size() < B->digits.size())
     { // B is the larger Number.
         vector<int> temp;
@@ -36,13 +37,7 @@ int Order(Number *A, Number *B)
     {
         for (int i = 0; i < A->digits.size(); i++)
         {
-            if (A->digits[i] > B->digits[i])
-            {
-                // This means that A is indeed larger than B
-
-                return -1; // no swap is necessary
-            }
-            else
+            if (A->digits[i] < B->digits[i])
             {
                 // If this part is reached then B is larger than A and we need to swap
                 vector<int> temp;
@@ -119,8 +114,8 @@ Number *Sub(Number A, Number B)
 
 // int main()
 // {
-//     vector<int> a = {1,1};
-//     vector<int> b = {5,0};
+//     vector<int> a = {7,1};
+//     vector<int> b = {0,1};
 //     Number A(a, 10, 0, 0);
 //     Number B(b, 10, 0, 0);
 //     Number *ans = Sub(A, B);
