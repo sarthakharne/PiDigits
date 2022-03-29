@@ -150,12 +150,12 @@ Number* Karatsuba(Number* n1, Number* n2) {
     // cout << "Diff1: ";
     // Diff1->printNumber();
     Number* Diff2 = Sub(*Diff1, *lowerMult);
-    cout << "Diff1: ";
-    Diff1->printNumber();
-    cout << "lowerMult: ";
-    lowerMult->printNumber();
-    cout << "Diff2: ";
-    Diff2->printNumber();
+    // cout << "Diff1: ";
+    // Diff1->printNumber();
+    // cout << "lowerMult: ";
+    // lowerMult->printNumber();
+    // cout << "Diff2: ";
+    // Diff2->printNumber();
     Number* highMultPlusLowerMult = Diff2;
 
     higherMult->addExponent(2*greaterSizBy2);
@@ -163,6 +163,7 @@ Number* Karatsuba(Number* n1, Number* n2) {
     Number* Sum3 = Add(higherMult, highMultPlusLowerMult);
     Number* Sum4 = Add(Sum3, lowerMult);
     Number* FinalProd = new Number(Sum4);
+    FinalProd->sign = n1->sign | n2->sign;
 
     // free objects which aren't required
     free(lowSpl1);
@@ -178,7 +179,6 @@ Number* Karatsuba(Number* n1, Number* n2) {
     free(Diff2);
     free(Sum3);
     free(Sum4);
-    FinalProd->sign = n1->sign | n2->sign;
 
     return FinalProd;
 }
@@ -193,8 +193,8 @@ Number* Multiply(Number* n1, Number* n2) {
 
 int main() {
     // TODO: Correct the code for this input
-    vector<int> a = {2,8,3,9,5,0,2,8};
-    vector<int> b = {7,2,2,4,9,8,3,3};
+    vector<int> a = {0,2,0,6,2,7};
+    vector<int> b = {0,8,5,4,1};
     Number* A = new Number(a, 10, 0, 0);
     Number* B = new Number(b, 10, 0, 0);
     Number* ans = Multiply(A, B);

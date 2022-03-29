@@ -58,12 +58,12 @@ Number *Sub(Number A, Number B)
 {
     // Adjust(A,B);
     // FOR Bk and Al length vectors
-    A.printNumber();
-    B.printNumber();
+    // A.printNumber();
+    // B.printNumber();
     int swapflag = Order(&A, &B);
     int sign = 0;
-    A.printNumber();
-    B.printNumber();
+    // A.printNumber();
+    // B.printNumber();
     if (swapflag == 1)
     {
         sign = 1; // negative
@@ -84,14 +84,14 @@ Number *Sub(Number A, Number B)
             Ci = (A.digits[l - i - 1] - B.digits[k - i - 1] + carry) % b;
             carry = 0;
             c.push_back(Ci);
-            cout<<Ci<<endl;
+            // cout<<Ci<<endl;
         }
         else
         {
             Ci = ((A.base + (A.digits[l - i - 1])) - B.digits[k - i - 1] + carry) % b;
             carry = -1;
             c.push_back(Ci);
-            cout<<Ci<<endl;
+            // cout<<Ci<<endl;
         }
     }
     for (int i = minLen; i < maxLen; i++)
