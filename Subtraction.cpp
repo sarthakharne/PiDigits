@@ -37,6 +37,10 @@ int Order(Number *A, Number *B)
     {
         for (int i = 0; i < A->digits.size(); i++)
         {
+            if(A->digits[i] > B->digits[i])
+            {
+                return -1;
+            }
             if (A->digits[i] < B->digits[i])
             {
                 // If this part is reached then B is larger than A and we need to swap
@@ -50,51 +54,57 @@ int Order(Number *A, Number *B)
     }
     return -1; // no swapping needs to be done.
 }
-Number *Sub(Number *A, Number *B)
+Number *Sub(Number A, Number B)
 {
     // Adjust(A,B);
     // FOR Bk and Al length vectors
-    int swapflag = Order(A, B);
+    A.printNumber();
+    B.printNumber();
+    int swapflag = Order(&A, &B);
     int sign = 0;
+    A.printNumber();
+    B.printNumber();
     if (swapflag == 1)
     {
         sign = 1; // negative
         
     }
     vector<int> c;
-    int k = B->digits.size();
-    int l = A->digits.size();
-    int b = A->base;
+    int l = A.digits.size();
+    int k = B.digits.size();
+    int b = A.base;
     int carry = 0;
     int Ci = 0;
     int minLen = min(l, k);
     int maxLen = max(l, k);
     for (int i = 0; i < minLen; i++)
     {
-        if ((A->digits[l - i - 1] - B->digits[k - i - 1] + carry) >= 0)
+        if ((A.digits[l - i - 1] - B.digits[k - i - 1] + carry) >= 0)
         {
-            Ci = (A->digits[l - i - 1] - B->digits[k - i - 1] + carry) % b;
+            Ci = (A.digits[l - i - 1] - B.digits[k - i - 1] + carry) % b;
             carry = 0;
             c.push_back(Ci);
+            cout<<Ci<<endl;
         }
         else
         {
-            Ci = ((A->base + (A->digits[l - i - 1])) - B->digits[k - i - 1] + carry) % b;
+            Ci = ((A.base + (A.digits[l - i - 1])) - B.digits[k - i - 1] + carry) % b;
             carry = -1;
             c.push_back(Ci);
+            cout<<Ci<<endl;
         }
     }
     for (int i = minLen; i < maxLen; i++)
     { // l > k in this case always since A always has the larger value
-        if (A->digits[i] == 0 && carry == -1)
+        if (A.digits[l-i-1] == 0 && carry == -1)
         {
-            Ci = ((A->base + (A->digits[l - i - 1])) + carry) % b;
+            Ci = ((A.base + (A.digits[l - i - 1])) + carry) % b;
             carry = -1;
             c.push_back(Ci);
         }
         else
         {
-            Ci = (A->digits[l - i - 1] + carry) % b;
+            Ci = (A.digits[l - i - 1] + carry) % b;
             carry = 0;
             c.push_back(Ci);
         }
@@ -105,20 +115,20 @@ Number *Sub(Number *A, Number *B)
         res.push_back(c[i]);
     }
     reverse(res.begin(),res.end());
-    reverse(A->digits.begin(),A->digits.end());
-    reverse(B->digits.begin(),B->digits.end());
-    Number *ans = new Number(res, A->base, 0, sign);
+    reverse(A.digits.begin(),A.digits.end());
+    reverse(B.digits.begin(),B.digits.end());
+    Number *ans = new Number(res, A.base, 0, sign);
 
     return ans;
 }
 
 // int main()
 // {
-//     vector<int> a = {7,1};
-//     vector<int> b = {0,1};
+//     vector<int> a = {6,0,0,4,1};
+//     vector<int> b = {4,2,9};
 //     Number A(a, 10, 0, 0);
 //     Number B(b, 10, 0, 0);
-//     Number *ans = Sub(&A, &B);
+//     Number *ans = Sub(A, B);
 //     for (int i = 0; i < ans->digits.size(); i++)
 //     {
 //         cout << ans->digits[i];
