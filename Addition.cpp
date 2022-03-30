@@ -1,6 +1,7 @@
 #ifndef ADDITION
 #define ADDITION
 #include "Number.hpp"
+#include "Subtraction.cpp"
 #include <algorithm>
 using namespace std;
 // void Adjust(Number * A, Number * B)
@@ -25,6 +26,10 @@ using namespace std;
 Number * Add(Number *A, Number *B)
 {
     // FOR Bk and Al length vectors
+    if((A->sign && !B->sign) || (!A->sign && B->sign)) 
+    {
+        return Sub(*A,*B);
+    }
     reverse(A->digits.begin(),A->digits.end());
     reverse(B->digits.begin(),B->digits.end());
     vector<int> c;
@@ -67,16 +72,23 @@ Number * Add(Number *A, Number *B)
     reverse(res.begin(),res.end());
     reverse(A->digits.begin(),A->digits.end());
     reverse(B->digits.begin(),B->digits.end());
-    Number * ans = new Number(res,A->base,0,false);
+    if(A->sign && B->sign)
+    {
+        Number * ans = new Number(res,A->base,0,true);
+        ans->removeZeroes();
+        return ans;
+    }
 
+    Number * ans = new Number(res,A->base,0,false);
+    ans->removeZeroes();
     return ans;
 }
 
 // int main()
 // {
-//     vector<int> a = {6};
+//     vector<int> a = {5};
 //     vector<int> b = {9};
-//     Number A(a,10,0,0);
+//     Number A(a,10,0,1);
 //     Number B(b,10,0,0);
 //     Number *ans = Add(&A,&B);
 //     // for(int i =0;i<ans->digits.size();i++)
