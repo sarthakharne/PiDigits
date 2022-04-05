@@ -208,8 +208,8 @@ int main() {
     Number* ans = Multiply(A, B);
     // Number* ans = NormalMult(A, B);
 
-//     cout << "\nAnswer: \n";
-//     ans->printNumber();
-// }
+    cout << "\nAnswer: \n";
+    ans->printNumber();
+}
 
 #endif // MULTIPLICATION

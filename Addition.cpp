@@ -23,15 +23,18 @@ using namespace std;
 //         Multiply(B,&adjustfactor);
 //     }
 // }
+
 Number * Add(Number *A, Number *B)
 {
     // FOR Bk and Al length vectors
+
     if((A->sign && !B->sign) || (!A->sign && B->sign)) 
     {
         return Sub(*A,*B);
     }
     reverse(A->digits.begin(),A->digits.end());
     reverse(B->digits.begin(),B->digits.end());
+    padding(A,B);
     vector<int> c;
     //Adjust(A,B);
     int k = B->digits.size();
@@ -86,10 +89,10 @@ Number * Add(Number *A, Number *B)
 
 // int main()
 // {
-//     vector<int> a = {5};
-//     vector<int> b = {9};
-//     Number A(a,10,0,1);
-//     Number B(b,10,0,0);
+//     vector<int> a = {9};
+//     vector<int> b = {5};
+//     Number A(a,10,-1,0);
+//     Number B(b,10,-1,0);
 //     Number *ans = Add(&A,&B);
 //     // for(int i =0;i<ans->digits.size();i++)
 //     // {

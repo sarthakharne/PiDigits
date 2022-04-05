@@ -4,6 +4,8 @@
         "limits": "cpp",
         "iostream": "cpp",
         "ostream": "cpp",
-        "ranges": "cpp"
+        "ranges": "cpp",
+        "cmath": "cpp",
+        "complex": "cpp"
     }
 }
