@@ -103,6 +103,8 @@ Number *Sub(Number A, Number B)
 {
     // Adjust(A,B);
     // FOR Bk and Al length vectors
+    A.printNumber();
+    B.printNumber();
     // A.printNumber();
     // B.printNumber();
     // A.printNumber();
@@ -114,8 +116,8 @@ Number *Sub(Number A, Number B)
     padding(&A,&B);
     
     int sign = 0;
-    // A.printNumber();
-    // B.printNumber();
+    A.printNumber();
+    B.printNumber();
     if (swapflag == 1)
     {
         sign = 1; // negative       

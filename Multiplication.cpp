@@ -199,19 +199,17 @@ Number* Multiply(Number* n1, Number* n2) {
     return Res;
 }
 
-// int main() {
-//     // TODO: Correct the code for this input
-//     vector<int> a = {0,2,0,6,2,7};
-//     vector<int> b = {0,8,5,4,1};
-//     Number* A = new Number(a, 10, 0, 0);
-//     A->removeZeroes();
-//     Number* B = new Number(b, 10, 0, 0);
-//     B->removeZeroes();
-//     Number* ans = Multiply(A, B);
-//     // Number* ans = NormalMult(A, B);
+int main() {
+    // TODO: Correct the code for this input
+    vector<int> a = {2,1,5,4,5,7,4,3};
+    vector<int> b = {0,3,4,2,3,0,8,4};
+    Number* A = new Number(a, 10, 0, 0);
+    Number* B = new Number(b, 10, 0, 0);
+    Number* ans = Multiply(A, B);
+    // Number* ans = NormalMult(A, B);
 
-//     cout << "\nAnswer: \n";
-//     ans->printNumber();
-// }
+    cout << "\nAnswer: \n";
+    ans->printNumber();
+}
 
 #endif // MULTIPLICATION
