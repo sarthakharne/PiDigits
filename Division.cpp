@@ -3,9 +3,6 @@
 #include <bits/stdc++.h>
 #include <cmath>
 #include "Number.hpp"
-#include "Addition.cpp"
-#include "Subtraction.cpp"
-#include "Multiplication.cpp"
 // #include "Multiplication.cpp"
 using namespace std;
 
@@ -46,37 +43,45 @@ pair<int, int> QuoRem(int temp, int base) {
 // q = (q(m-1) .... q(0))(base B)
 // r = (r(k-1) .... r(0))(base B)
 
-pair<Number *, Number *> Divide(Number* A, Number* B) {
-    // initialise R = A
-    vector<int> r_dig(A->digits.begin(), A->digits.end());
-    Number* R = new Number(r_dig, A->base, 0);
+pair<Number *, Number *> Divide(Number* A, Number* B, int precision=0) {
+    // add zeroes in the beginning of A then remove at last to get precision
+    // create copy of A and then change the exponent
+    // TODO: remove exponents = precision to get accurate answer
+    // zero vector with size = precision
+    vector<int> zeroes(precision, 0);
+    // add the zero vector to A
+    Number* A_Copy = new Number(A);
+    A_Copy->addExponent(precision);
+    
+    // initialise R = A_Copy
+    vector<int> r_dig(A_Copy->digits.begin(), A_Copy->digits.end());
+    Number* R = new Number(r_dig, A_Copy->base, 0);
     R->digits.push_back(0);
 
     // A->printNumber();
+    // A_Copy->printNumber();
     // B->printNumber();
     // R->printNumber();
     // cout << endl;
 
     // sizes of different numbers
-    int k = A->digits.size();   // A, R
+    int k = A_Copy->digits.size();   // A_Copy, R
     int l = B->digits.size();   // B
     int m = k - l + 1;          // Q
-    int base = A->base;
+    int base = A_Copy->base;
     int carry = 0;
 
     // initialise Q
     vector<int> q_dig(m, 0);
-    Number* Q = new Number(q_dig, A->base, 0);
+    Number* Q = new Number(q_dig, A_Copy->base, A_Copy->exponent - B->exponent);
+    Q->printNumber();
     // this step is required as vector cannot be initialised to 0
     // otherwise remove zeroes function call in contructor will remove 
     // all zeroes
     
-    //Q->digits.resize(m, 0);
-    // A->rev();
-    // B->rev();
-    // R->rev();
-
     for(int i = k - l; i >= 0; i--) {
+        if(i > Q->digits.size())
+            Q->digits.resize(i+1);  // resize q if enough space not allocated
         Q->digits[i] = floor((float)( (R->digits[i+l]*base + R->digits[i+l-1])/B->digits[l-1] ));
         // Q->printNumber();
 
@@ -85,41 +90,6 @@ pair<Number *, Number *> Divide(Number* A, Number* B) {
         
         carry = 0;
 
-        // // -------------------------------
-
-        // // TODO: free newly allocated objects
-        // // here we have to do (r(i+l) ... r(i))(base B) = (r(i+l) ... r(i))(base B) - q(i)*b
-        // vector<int> r_il_i;
-        // for(int k = i;k <= i+l;k++)
-        //     r_il_i.push_back(R->digits[k]);
-        // Number* R_IL_I = new Number(r_il_i, base, 0);
-        // // cout << "R_IL_I: ";
-        // // R_IL_I->printNumber();
-        // vector<int> q_i{Q->digits[i]};
-        // Number* Q_I = new Number(q_i, base, 0);
-        // Number* Q_I_times_B = Multiply(Q_I, B);
-        // Number* Sub_Res = Sub(R_IL_I, Q_I_times_B);
-        // // Sub_Res->printNumber();
-        
-        
-        // // (r(i+l) ... r(i))(base B) = (r(i+l) ... r(i))(base B) + (b(l-1) ... b(0))(base B)
-        // while(Sub_Res->sign == true) {
-        //     Sub_Res = Add(Sub_Res, B);
-        //     // Sub_Res->printNumber();
-        //     Q->digits[i] -= 1;
-        // }
-        
-        // for(int k = i;k <= i+l;k++){
-        //     // cout << "Hello\n";
-        //     R->digits[k] = Sub_Res->digits[k-i];
-        // }
-
-        // free(R_IL_I);
-        // free(Q_I);
-        // free(Q_I_times_B);
-        // free(Sub_Res);
-
-        // // -------------------------------
 
         for(int j = 0;j <= l-1;j++) {
             int temp = R->digits[i+j] - Q->digits[i]*B->digits[j] + carry;
@@ -142,24 +112,25 @@ pair<Number *, Number *> Divide(Number* A, Number* B) {
         }
 
     }
-    // A->rev();
-    // B->rev();
-    // R->rev();
-    // Q->rev();
-
+    if(Q->digits.size() == 0)   Q->digits.push_back(0);
     
-    Q->removeZeroes();
-    R->removeZeroes();
+    Q->removeZeroes(true);
+    // remove exponent = precision
+    Q->addExponent(-1*precision);
+
+    R->removeZeroes(true);
+    R->addExponent(A->exponent - B->exponent);
+    free(A_Copy);
     return make_pair(Q, R);
 }
 
 
 int main() {
-    vector<int> a = {7,5,5,8,1,5};
-    vector<int> b = {7,0,2,3,9};
+    vector<int> a = {4};
+    vector<int> b = {1};
     Number* A = new Number(a, 10, 0, 0);
     Number* B = new Number(b, 10, 0, 0);
-    pair<Number*, Number*> p = Divide(A, B);
+    pair<Number*, Number*> p = Divide(A, B, 5);
     Number* Quotient = p.first;
     Number* Remainder = p.second;
     // Number* ans = NormalMult(A, B);

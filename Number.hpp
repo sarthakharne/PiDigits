@@ -15,7 +15,7 @@ class Number {
         Number(Number *n);
 
         // removes zeroes from the Left and adjusts the exponent
-        void removeZeroes();
+        void removeZeroes(bool maintain_exp=false, int exp=INT_MAX);
 
         // add exponent
         Number* addExponent(int e);
@@ -25,6 +25,15 @@ class Number {
 
         // reverse digits
         void rev();
+
+        // compare a number with current number
+        static int compare(Number* n1, Number* n2, bool considerSign = false);
+
+        // two
+        static Number* retTwo(int b, int expo = 0, bool sig = false);
+
+        // pad numbers to normalise exponents
+        // diffexp - (n1 - 1) + (n2 - 1)
 };
 
 #endif // NUMBER

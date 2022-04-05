@@ -23,15 +23,18 @@ using namespace std;
 //         Multiply(B,&adjustfactor);
 //     }
 // }
+
 Number * Add(Number *A, Number *B)
 {
     // FOR Bk and Al length vectors
+
     if((A->sign && !B->sign) || (!A->sign && B->sign)) 
     {
         return Sub(*A,*B);
     }
     reverse(A->digits.begin(),A->digits.end());
     reverse(B->digits.begin(),B->digits.end());
+    padding(A,B);
     vector<int> c;
     //Adjust(A,B);
     int k = B->digits.size();
@@ -75,29 +78,29 @@ Number * Add(Number *A, Number *B)
     if(A->sign && B->sign)
     {
         Number * ans = new Number(res,A->base,0,true);
-        ans->removeZeroes();
+        ans->removeZeroes(true);
         return ans;
     }
 
     Number * ans = new Number(res,A->base,0,false);
-    ans->removeZeroes();
+    ans->removeZeroes(true);
     return ans;
 }
 
-// int main()
-// {
-//     vector<int> a = {5};
-//     vector<int> b = {9};
-//     Number A(a,10,0,1);
-//     Number B(b,10,0,0);
-//     Number *ans = Add(&A,&B);
-//     // for(int i =0;i<ans->digits.size();i++)
-//     // {
-//     //     cout<<ans->digits[i];
-//     // }
-//     ans->printNumber();
-//     cout<<endl;
-// }
+int main()
+{
+    vector<int> a = {0,0,0,0,0,4};
+    vector<int> b = {1};
+    Number A(a,10,0,0);
+    Number B(b,10,0,0);
+    Number *ans = Add(&A,&B);
+    // for(int i =0;i<ans->digits.size();i++)
+    // {
+    //     cout<<ans->digits[i];
+    // }
+    ans->printNumber();
+    cout<<endl;
+}
 // Rough : -
 //  123  B 3 3-i-1 = 2 1
 //  093  A 2 2-i-1 = 1 0
