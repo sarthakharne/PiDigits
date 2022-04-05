@@ -26,14 +26,29 @@ class Number {
         // reverse digits
         void rev();
 
+        // adjust for precision
+        void adjustForPrecision(int precision);
+
+        // express without decimal
+        // returns the power to be subtracted from the num or denom
+        int expressWihtoutDecimal();
+
+        // pad numbers to normalise exponents
+        // diffexp - (n1 - 1) + (n2 - 1)
+        // return exponent to be added
+        static int padNumbers(Number* A, Number* B);
+
         // compare a number with current number
         static int compare(Number* n1, Number* n2, bool considerSign = false);
 
         // two
         static Number* retTwo(int b, int expo = 0, bool sig = false);
 
-        // pad numbers to normalise exponents
-        // diffexp - (n1 - 1) + (n2 - 1)
+        // QuoRem
+        static pair<int, int> QuoRem(int temp, int base);
+
+        // make digits equal
+        static void makeDigitsEqual(Number* A, Number* B);
 };
 
 #endif // NUMBER

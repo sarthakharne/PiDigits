@@ -45,16 +45,6 @@ void Number::removeZeroes(bool maintain_exp, int exp) {
 }
 
 Number* Number::addExponent(int e) {
-    for(int i = 0;i < e;i++)
-        this->digits.insert(this->digits.begin(), 1, 0);
-
-    // for(int i = 0;i > e;i--) {
-    //     if(this->digits[0] == 0)
-    //         this->digits.erase(this->digits.begin());
-    //     else
-    //         break;
-    // }
-
     this->exponent += e;
 
     return this;
@@ -80,6 +70,8 @@ int Number::compare(Number* n1, Number* n2, bool considerSign) {
     // compare exponents
     // if same, compare the msb
     // if same, start comparing from msb - 1
+    if((n1->digits.size() == 1) && (n1->digits[0] == 0) && (n2->sign == false))
+        return -1;
 
     if(considerSign) {
         if(n1->sign ^ n2->sign != false) {
@@ -124,4 +116,99 @@ Number* Number::retTwo(int b, int expo, bool sig) {
     Two->removeZeroes();
 
     return Two;
+}
+
+int Number::padNumbers(Number* A, Number* B) {
+    // implicit assumption that a.exp > b.exp
+    // difference in exponents
+    int diffExp = A->exponent - B->exponent;
+
+    // add zeroes to the beginning of second number
+    for(int i = 0;i < diffExp;i++)
+        B->digits.push_back(0);
+    
+    // adjust exponent for the second number by reducing exponent
+    B->addExponent(-1*diffExp);
+
+    int sizeDiff = A->digits.size() - B->digits.size();
+
+    if(sizeDiff < 0) {
+        // a has smaller size, so pad it
+        for(int i = 0;i < -1*sizeDiff;i++) {
+            A->digits.insert(A->digits.begin(), 0);
+        }
+    }
+    else {
+        // b has smaller size, so pad it
+        for(int i = 0;i < sizeDiff;i++) {
+            B->digits.insert(B->digits.begin(), 0);
+        }
+    }
+
+    return diffExp;
+}
+
+pair<int, int> Number::QuoRem(int temp, int base) {
+    int quo, rem;
+
+    if(temp >= 0) {
+        quo = temp/base;
+        rem = temp%base;
+    }
+
+    else {
+        // if the number is negative
+        // // if mod == 0 quo = -temp/base
+        // // else if mod != 0 quo = -(temp/base + 1)
+        if(temp%base == 0) {
+            quo = temp/base;
+            rem = 0;
+        }
+        else {
+            quo = temp/base - 1;
+            rem = base + temp%base; // + because temp%base is negativez
+        }
+    }
+    
+    return make_pair(quo, rem);
+}
+
+void Number::adjustForPrecision(int precision) {
+    // goal to make digitsAfterRealDecimal = precision
+    int digitsAfterRealDecimal = this->digits.size() - this->exponent - 1;
+    // pad with 0 if size < exponent
+    if(digitsAfterRealDecimal < 0) {
+        for(int i = 0;i < -1*digitsAfterRealDecimal;i++) {
+            this->digits.insert(this->digits.begin(), 0);
+        }
+        digitsAfterRealDecimal = 0;
+    }
+
+    // pad with 0 to make digitsAfterRealDecimal = precision
+    for(int i = 0;i < precision-digitsAfterRealDecimal;i++) {
+        this->digits.insert(this->digits.begin(), 0);
+    }
+}
+
+// returns the power to be subtracted from the num or denom
+int Number::expressWihtoutDecimal() {
+    // all digits after scientific decimal are made to appear
+    // so that much power is subtracted
+    int res = this->digits.size() - 1;
+    this->addExponent(-1*(this->digits.size() - 1));
+    return res;
+}
+
+void Number::makeDigitsEqual(Number* A, Number* B) {
+    int sizeDiff = A->digits.size() - B->digits.size();
+    if(sizeDiff < 0) {
+        for(int i = 0;i < -1*sizeDiff;i++) {
+            A->digits.insert(A->digits.begin(), 0);
+        }
+    }
+    else {
+        for(int i = 0;i < sizeDiff;i++) {
+            B->digits.insert(B->digits.begin(), 0);
+        }
+    }
 }

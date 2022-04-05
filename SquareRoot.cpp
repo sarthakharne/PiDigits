@@ -35,11 +35,16 @@ Number* SquareRoot(Number* num, int precision) {
     // Threshold of the form 0.000000005 or 5*e-9
 
     while(1) {
+        cout << "Ans: ";
+        Ans->printNumber();
         pair<Number*, Number*> div1 = Divide(num, Ans, precision);
         Number* sum = Add(Ans, div1.first);
         pair<Number*, Number*> div2 = Divide(sum, Two, precision);
         Number* newAns = new Number(div2.first);
+        cout << "newAns: ";
+        newAns->printNumber();
         // loop breaks when difference between two successive answers is less than threshold
+        // TODO: check compare function
         if(Number::compare(Sub(Ans, newAns), Thresh) < 0)
             break;
 
@@ -65,10 +70,10 @@ Number* SquareRoot(Number* num, int precision) {
 }
 
 int main() {
-    vector<int> a = {4};
+    vector<int> a = {2};
     Number* A = new Number(a, 10, 0);
 
-    Number* Ans = SquareRoot(A, 10);
+    Number* Ans = SquareRoot(A, 100);
     cout << "Square Root: ";
     Ans->printNumber();
 }
