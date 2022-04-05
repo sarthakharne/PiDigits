@@ -5,7 +5,7 @@ Number::Number(vector<int> &dig, int b, int expo, bool sig)  {
     base = b;
     exponent = expo;
     sign = sig;
-    this->removeZeroes();
+    // this->removeZeroes();
 }
 
 Number::Number(Number* n) {
@@ -13,7 +13,7 @@ Number::Number(Number* n) {
     this->base = n->base;
     this->exponent = n->exponent;
     this->sign = n->sign;
-    this->removeZeroes();
+    // this->removeZeroes();
 }
 
 void Number::removeZeroes() {
@@ -40,10 +40,14 @@ Number* Number::addExponent(int e) {
 }
 
 void Number::printNumber() {
-    cout << "Digits: ";
+    cout << "Digits: " << (this->sign == 1 ? "- " : "+ ");
     for(int i = this->digits.size() - 1;i >= 0;i--) {
         cout << this->digits[i] << " ";
     }
     cout << endl;
     cout << "Exponent: " << this->exponent << endl;
+}
+
+void Number::rev() {
+    reverse(this->digits.begin(), this->digits.end());
 }

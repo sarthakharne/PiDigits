@@ -22,6 +22,9 @@ class Number {
 
         // print to see the number
         void printNumber();
+
+        // reverse digits
+        void rev();
 };
 
 #endif // NUMBER

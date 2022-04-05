@@ -3,6 +3,7 @@
         "vector": "cpp",
         "limits": "cpp",
         "iostream": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "ranges": "cpp"
     }
 }

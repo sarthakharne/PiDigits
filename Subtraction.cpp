@@ -60,14 +60,22 @@ Number *Sub(Number A, Number B)
     // FOR Bk and Al length vectors
     A.printNumber();
     B.printNumber();
+    // A.printNumber();
+    // B.printNumber();
+    int sa = A.sign;
+    int sb = B.sign;
     int swapflag = Order(&A, &B);
     int sign = 0;
-    A.printNumber();
-    B.printNumber();
+    // A.printNumber();
+    // B.printNumber();
     if (swapflag == 1)
     {
-        sign = 1; // negative
-        
+        sign = 1; // negative       
+    }
+    if(sa == 1 && sb == 0)
+    {
+        if(sign ==1) sign = 0;
+        else sign =1;
     }
     vector<int> c;
     int l = A.digits.size();
@@ -84,14 +92,14 @@ Number *Sub(Number A, Number B)
             Ci = (A.digits[l - i - 1] - B.digits[k - i - 1] + carry) % b;
             carry = 0;
             c.push_back(Ci);
-            cout<<Ci<<endl;
+            // cout<<Ci<<endl;
         }
         else
         {
             Ci = ((A.base + (A.digits[l - i - 1])) - B.digits[k - i - 1] + carry) % b;
             carry = -1;
             c.push_back(Ci);
-            cout<<Ci<<endl;
+            // cout<<Ci<<endl;
         }
     }
     for (int i = minLen; i < maxLen; i++)
@@ -118,23 +126,20 @@ Number *Sub(Number A, Number B)
     reverse(A.digits.begin(),A.digits.end());
     reverse(B.digits.begin(),B.digits.end());
     Number *ans = new Number(res, A.base, 0, sign);
+    ans->removeZeroes();
 
     return ans;
 }
 
 // int main()
 // {
-//     vector<int> a = {6,0,0,4,1};
-//     vector<int> b = {4,2,9};
-//     Number A(a, 10, 0, 0);
+//     vector<int> a = {5};
+//     vector<int> b = {9};
+//     Number A(a, 10, 0, 1);
 //     Number B(b, 10, 0, 0);
 //     Number *ans = Sub(A, B);
-//     for (int i = 0; i < ans->digits.size(); i++)
-//     {
-//         cout << ans->digits[i];
-//     }
+//     ans->printNumber();
 //     cout << endl;
-//     cout << ans->sign << endl;
 // }
 // Rough : -
 //  123  B 3 3-i-1 = 2 1

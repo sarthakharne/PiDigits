@@ -15,7 +15,9 @@ pair<Number*, Number*> splitAt(Number *n, int ind) {
         vector<int> dig(1, 0);
 
         lowSplit = new Number(n);
+        lowSplit->removeZeroes();
         highSplit = new Number(dig, n->base, 0);
+        highSplit->removeZeroes();
     }
     else {
         vector<int> digLow;
@@ -61,7 +63,8 @@ Number* NormalMult(Number* n1, Number* n2) {
     int exp = 0;    // will be normalised afterwards
 
     Number* res = new Number(c, base, exp);
-    res->sign = n1->sign | n2->sign;
+    res->removeZeroes();
+    res->sign = n1->sign ^ n2->sign;
 
     return res;
 }
@@ -95,6 +98,10 @@ Number* Karatsuba(Number* n1, Number* n2) {
     Number *highSpl1 = new Number(n1Split.second);
     Number *lowSpl2 = new Number(n2Split.first);
     Number *highSpl2 = new Number(n2Split.second);
+    lowSpl1->removeZeroes();
+    highSpl1->removeZeroes();
+    lowSpl2->removeZeroes();
+    highSpl2->removeZeroes();
     // lowSpl1->printNumber();
     // highSpl1->printNumber();
     // lowSpl2->printNumber();
@@ -150,12 +157,12 @@ Number* Karatsuba(Number* n1, Number* n2) {
     // cout << "Diff1: ";
     // Diff1->printNumber();
     Number* Diff2 = Sub(*Diff1, *lowerMult);
-    cout << "Diff1: ";
-    Diff1->printNumber();
-    cout << "lowerMult: ";
-    lowerMult->printNumber();
-    cout << "Diff2: ";
-    Diff2->printNumber();
+    // cout << "Diff1: ";
+    // Diff1->printNumber();
+    // cout << "lowerMult: ";
+    // lowerMult->printNumber();
+    // cout << "Diff2: ";
+    // Diff2->printNumber();
     Number* highMultPlusLowerMult = Diff2;
 
     higherMult->addExponent(2*greaterSizBy2);
@@ -163,6 +170,8 @@ Number* Karatsuba(Number* n1, Number* n2) {
     Number* Sum3 = Add(higherMult, highMultPlusLowerMult);
     Number* Sum4 = Add(Sum3, lowerMult);
     Number* FinalProd = new Number(Sum4);
+    FinalProd->removeZeroes();
+    FinalProd->sign = n1->sign ^ n2->sign;
 
     // free objects which aren't required
     free(lowSpl1);
@@ -178,14 +187,13 @@ Number* Karatsuba(Number* n1, Number* n2) {
     free(Diff2);
     free(Sum3);
     free(Sum4);
-    FinalProd->sign = n1->sign | n2->sign;
 
     return FinalProd;
 }
 
 Number* Multiply(Number* n1, Number* n2) {
     Number* Res = new Number(Karatsuba(n1, n2));
-    Res->sign = n1->sign | n2->sign;
+    Res->sign = n1->sign ^ n2->sign;
     Res->removeZeroes();
 
     return Res;
@@ -200,8 +208,8 @@ int main() {
     Number* ans = Multiply(A, B);
     // Number* ans = NormalMult(A, B);
 
-    cout << "\nAnswer: \n";
-    ans->printNumber();
-}
+//     cout << "\nAnswer: \n";
+//     ans->printNumber();
+// }
 
 #endif // MULTIPLICATION
