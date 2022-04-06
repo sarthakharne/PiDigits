@@ -17,7 +17,11 @@ using namespace std;
 // r = (r(k-1) .... r(0))(base B)
 
 // TODO: Make Division work for exponents
-pair<Number *, Number *> Divide(Number* A, Number* B, int precision=0) {
+Number * Divide(Number* A, Number* B, int precision=0) {
+    // cout << "In function Divide, Num: ";
+    // A->printNumber();
+    // cout << "In function Divide, Denom: ";
+    // B->printNumber();
     // add zeroes in the beginning of A then remove at last to get precision
     // create copy of A and then change the exponent
     // TODO: remove exponents = precision to get accurate answer
@@ -90,25 +94,23 @@ pair<Number *, Number *> Divide(Number* A, Number* B, int precision=0) {
     R->removeZeroes(true);
     R->addExponent(A->exponent - B_Copy->exponent);
     free(A_Copy);
-    return make_pair(Q, R);
+    free(B_Copy);
+    // cout << "In function Divide, Quo: ";
+    // Q->printNumber();
+
+    return Q;
 }
 
 
 // int main() {
-//     vector<int> a = {5};
-//     vector<int> b = {0,0,0,0,0,0,0,0,0,0,3};
+//     vector<int> a = {9,4,1,1,7,0,2,9,8,1,1};    // 1 1 8 9 2 0 7 1 1 4 9
+//     vector<int> b = {3,2,6,5,3,1,2,4,1,4,1};    // 1 4 1 4 2 1 3 5 6 2 3 
 //     Number* A = new Number(a, 10, 0, 0);
 //     Number* B = new Number(b, 10, 0, 0);
-//     pair<Number*, Number*> p = Divide(A, B, 10);
-//     Number* Quotient = p.first;
-//     Number* Remainder = p.second;
-//     // Number* ans = NormalMult(A, B);
+//     Number* Quotient = Divide(A, B, 10);
 
 //     cout << "\nQuotient: \n";
 //     Quotient->printNumber();
-//     cout << "\nRemainder: \n";
-//     Remainder->printNumber();
-//     // cout << QuoRem(-13, 7).first << " " << QuoRem(-13, 7).second << endl;
 // }
 
 #endif

@@ -50,13 +50,35 @@ Number* Number::addExponent(int e) {
     return this;
 }
 
-void Number::printNumber() {
-    cout << "Digits: " << (this->sign == 1 ? "- " : "+ ");
-    for(int i = this->digits.size() - 1;i >= 0;i--) {
-        cout << this->digits[i] << " ";
+void Number::printNumber(int precision) {
+    // cout << (this->sign == false ? "+ ": "- ");
+    if(precision == INT_MAX) {
+        for(int i = this->digits.size() - 1;i >= 0;i--) {
+            // cout << this->digits[i] << " ";
+            cout << this->digits[i] << "";
+            if(i == this->digits.size() - 1 && this->digits.size() > 1)
+                // cout << ". ";
+                cout << ".";
+        }
     }
+    else {
+        for(int i = this->digits.size() - 1;i >= this->digits.size() - precision - 1;i--) {
+            // cout << this->digits[i] << " ";
+            cout << this->digits[i] << "";
+            if(i == this->digits.size() - 1 && this->digits.size() > 1)
+                // cout << ". ";
+                cout << ".";
+        }
+    }
+    // cout << "* (" << this->base << " ^ " << this->exponent << ")";
     cout << endl;
-    cout << "Exponent: " << this->exponent << endl;
+
+    // cout << "Digits: " << (this->sign == 1 ? "- " : "+ ");
+    // for(int i = this->digits.size() - 1;i >= 0;i--) {
+    //     cout << this->digits[i] << " ";
+    // }
+    // cout << endl;
+    // cout << "Exponent: " << this->exponent << endl;
 }
 
 void Number::rev() {

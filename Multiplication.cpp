@@ -62,6 +62,21 @@ Number* NormalMult(Number* n1, Number* n2) {
 
     Number* res = new Number(c, base, exp);
     res->removeZeroes();
+
+    // adjusting exponents
+    // digits after decimal for the result
+    // with exponent = n1.exp + n2.exp
+    int res_exp = n1->exponent + n2->exponent;
+    // if there are digits before decimal then we need to adjust exponent
+    // we know that there are (n1.size - 1) + (n2.size - 1) digits
+    // after the decimal, so digits before dec = res.size - ((n1.size - 1) + (n2.size - 1))
+    int digitsBeforeDecimal = res->digits.size() - (n1->digits.size() - 1) - (n2->digits.size() - 1);
+    // we need to discard all digits other than 1
+    int extraDig = digitsBeforeDecimal - 1;
+    // we need to add this to the exponent to get scientific val
+    res_exp += extraDig;
+    res->exponent = res_exp;
+    
     res->sign = n1->sign ^ n2->sign;
 
     return res;
@@ -148,15 +163,29 @@ Number* Multiply(Number* n1, Number* n2) {
     Res->sign = n1->sign ^ n2->sign;
     Res->removeZeroes();
 
+    // adjusting exponents
+    // digits after decimal for the result
+    // with exponent = n1.exp + n2.exp
+    int res_exp = n1->exponent + n2->exponent;
+    // if there are digits before decimal then we need to adjust exponent
+    // we know that there are (n1.size - 1) + (n2.size - 1) digits
+    // after the decimal, so digits before dec = res.size - ((n1.size - 1) + (n2.size - 1))
+    int digitsBeforeDecimal = Res->digits.size() - (n1->digits.size() - 1) - (n2->digits.size() - 1);
+    // we need to discard all digits other than 1
+    int extraDig = digitsBeforeDecimal - 1;
+    // we need to add this to the exponent to get scientific val
+    res_exp += extraDig;
+    Res->exponent = res_exp;
+
     return Res;
 }
 
 // int main() {
 //     // TODO: Correct the code for this input
-//     vector<int> a = {2,1,5,4,5,7,4,3};
-//     vector<int> b = {0,3,4,2,3,0,8,4};
-//     Number* A = new Number(a, 10, 0, 0);
-//     Number* B = new Number(b, 10, 0, 0);
+//     vector<int> a = {0,5};
+//     vector<int> b = {2};
+//     Number* A = new Number(a, 10, 1, 0);
+//     Number* B = new Number(b, 10, -10, 0);
 //     Number* ans = Multiply(A, B);
 //     // Number* ans = NormalMult(A, B);
 

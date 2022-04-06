@@ -21,7 +21,7 @@ class Number {
         Number* addExponent(int e);
 
         // print to see the number
-        void printNumber();
+        void printNumber(int precision=INT_MAX);
 
         // reverse digits
         void rev();
